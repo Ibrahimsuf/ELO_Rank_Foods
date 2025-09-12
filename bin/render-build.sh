@@ -9,7 +9,7 @@ bin/rails assets:clean
 echo $DATABASE_URL
 echo $RAILS_ENV
 
-rails runner "cfg = Rails.configuration.database_configuration[Rails.env]; puts \"#{cfg['adapter']}://#{cfg['username']}:#{cfg['password']}@#{cfg['host']}:#{cfg['port']}/#{cfg['database']}\""
+rails runner "cfg = ActiveRecord::Base.connection_db_config.configuration_hash; puts \"#{cfg['adapter']}://#{cfg['username']}:#{cfg['password']}@#{cfg['host']}:#{cfg['port']}/#{cfg['database']}\""
 
 
 bin/rails db:migrate
