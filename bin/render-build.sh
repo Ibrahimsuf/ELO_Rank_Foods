@@ -6,5 +6,11 @@ bundle install
 bin/rails assets:precompile
 bin/rails assets:clean
 
+echo $DATABASE_URL
+echo $RAILS_ENV
+
+rails runner "cfg = Rails.configuration.database_configuration[Rails.env]; puts \"#{cfg['adapter']}://#{cfg['username']}:#{cfg['password']}@#{cfg['host']}:#{cfg['port']}/#{cfg['database']}\""
+
+
 bin/rails db:migrate
-bin/rails. db:seed
+bin/rails db:seed
