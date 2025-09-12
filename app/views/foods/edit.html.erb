@@ -1,12 +1,39 @@
-<% content_for :title, "Editing food" %>
+<% content_for :title, "Vote between foods" %>
 
-<h1>Editing food</h1>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <header class="mb-8 text-center">
+    <h1 class="text-2xl font-bold">Which food wins?</h1>
+    <p class="text-gray-600 mt-1">Choose your favorite below</p>
+  </header>
 
-<%= render "form", food: @food %>
+  <div class="grid gap-6 md:grid-cols-2">
+    <%# Food 1 card with vote button %>
+    <div class="flex flex-col">
+      <%= render "food", food: @food %>
 
-<br>
+      <%= form_with(model: @food, local: true, class: "mt-4") do |form| %>
+        <%= form.hidden_field :id2, value: @food2.id %>
+        <%= form.hidden_field :food1_win, value: true %>
+        <%= form.submit "Vote for #{@food.name}",
+              class: "w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 shadow-md" %>
+      <% end %>
+    </div>
 
-<div>
-  <%= link_to "Show this food", @food %> |
-  <%= link_to "Back to foods", foods_path %>
+    <%# Food 2 card with vote button %>
+    <div class="flex flex-col">
+      <%= render "food", food: @food2 %>
+
+      <%= form_with(model: @food, local: true, class: "mt-4") do |form| %>
+        <%= form.hidden_field :id2, value: @food2.id %>
+        <%= form.hidden_field :food1_win, value: false %>
+        <%= form.submit "Vote for #{@food2.name}",
+              class: "w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 shadow-md" %>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Optional back link %>
+  <div class="mt-10 text-center">
+    <%= link_to "Back to foods", foods_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+  </div>
 </div>

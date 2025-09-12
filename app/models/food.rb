@@ -1,9 +1,10 @@
 class Food < ApplicationRecord
   def win(food2)
-    update(elo: elo+K*(1-win_probability(food2)))
+    update!(elo: elo+K*(1-win_probability(food2)))
   end
-  def loss(food2)
-     update(elo: elo-K*win_probability(food2))
+  def lose(food2)
+    puts "Calling loss"
+    update!(elo: elo-K*win_probability(food2))
   end
   private
   K = 32

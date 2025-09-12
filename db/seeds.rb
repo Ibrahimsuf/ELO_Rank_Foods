@@ -10,9 +10,9 @@
 
 Dir.entries(Rails.root.join("app/assets/images")).each do |filename|
   if filename[-4..] == ".jpg"
-    food = Food.exists?(name: filename[0..-5], image_filename: filename)
+    food = Food.exists?(name: filename[0..-5].titleize, image_filename: filename)
     if !food
-      Food.create!(name: filename[0..-5], image_filename: filename, elo: 1200)
+      Food.create!(name: filename[0..-5].titleize, image_filename: filename, elo: 1200)
     end
   end
 end

@@ -17,6 +17,7 @@ class FoodsController < ApplicationController
 
   # GET /foods/1/edit
   def edit
+    @food2 = Food.find((Food.pluck(:id) - [ @food.id ]).sample)
   end
 
   # POST /foods or /foods.json
@@ -36,14 +37,13 @@ class FoodsController < ApplicationController
 
   # PATCH/PUT /foods/1 or /foods/1.json
   def update
-    respond_to do |format|
-      if @food.update(food_params)
-        format.html { redirect_to @food, notice: "Food was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @food }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @food.errors, status: :unprocessable_entity }
-      end
+    food2 = Food.find(params.expect(food: [ :id2 ])["id2"])
+    if params.expect(food: [ :id2 ])["food1_win"]
+      @food.win(food2)
+      food2.loss(@food)
+    else
+      @food.lose(food2)
+      food2.win(@food)
     end
   end
 

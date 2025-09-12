@@ -1,16 +1,30 @@
-<div id="<%= dom_id food %>">
-  <p>
-    <strong>Name:</strong>
-    <%= food.name %>
-  </p>
+<%# app/views/foods/_food_card.html.erb %>
+<%# Locals expected: food (object with name, elo, image_url) %>
 
-  <p>
-    <%= image_tag food.image_filename, size: "600x600" %>
-  </p>
+<%# helper to map elo -> Tailwind color (if you prefer move to helper module) %>
+<% elo_color =
+  case food.elo.to_i
+  when 0..999 then "bg-gray-200 text-gray-800"
+  when 1000..1299 then "bg-yellow-100 text-yellow-800"
+  when 1300..1599 then "bg-green-100 text-green-800"
+  when 1600..1999 then "bg-blue-100 text-blue-800"
+  else "bg-purple-100 text-purple-800"
+  end %>
 
-  <p>
-    <strong>Elo:</strong>
-    <%= food.elo %>
-  </p>
+<article class="rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200 bg-white">
+  <div class="relative h-48 md:h-40 lg:h-48 w-full overflow-hidden">
+    <%# responsive image with lazy loading and alt text %>
+    <%= image_tag food.image_filename, fetchpriority: "low", class: "object-cover w-full h-full", onerror: "this.onerror=null;this.src='/images/placeholder-food.png"%>
+    <%# ELO badge positioned top-right %>
+    <div class="absolute top-3 right-3 rounded-full px-3 py-1 text-sm font-medium <%= elo_color %> shadow">
+      <span class="sr-only">ELO rating</span>
+      <%= number_with_precision(food.elo, precision: 0, delimiter: ',') %>
+    </div>
+  </div>
 
-</div>
+  <div class="p-4">
+    <h3 class="text-lg font-semibold leading-tight truncate" title="<%= food.name %>">
+      <%= food.name %>
+    </h3>
+  </div>
+</article>

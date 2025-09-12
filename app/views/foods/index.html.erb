@@ -1,16 +1,20 @@
-<p style="color: green"><%= notice %></p>
+<%# app/views/foods/index.html.erb %>
+<%# controller sets @foods = Food.order(elo: :desc) or similar %>
 
-<% content_for :title, "Foods" %>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <header class="mb-6 flex items-center justify-between">
+    <h1 class="text-2xl font-bold">Foods</h1>
+    <p class="text-sm text-gray-600">Showing <strong><%= @foods.count %></strong> items</p>
+  </header>
 
-<h1>Foods</h1>
+  <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <% @foods.each do |food| %>
+      <%= render partial: "food", locals: { food: food } %>
+    <% end %>
+  </div>
 
-<div id="foods">
-  <% @foods.each do |food| %>
-    <%= render food %>
-    <p>
-      <%= link_to "Show this food", food %>
-    </p>
-  <% end %>
+  <%# optional pagination area %>
+  <div class="mt-8">
+    <%= paginate @foods if defined?(paginate) %>
+  </div>
 </div>
-
-<%= link_to "New food", new_food_path %>
