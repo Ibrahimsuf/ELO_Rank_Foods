@@ -10,8 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_12_084657) do
-# Could not dump table "foods" because of following StandardError
-#   Unknown type 'file' for column 'filename'
-
+ActiveRecord::Schema[8.0].define(version: 2025_09_12_091005) do
+  create_table "foods", force: :cascade do |t|
+    t.string "name"
+    t.string "image_filename"
+    t.float "elo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 end
