@@ -1,20 +1,22 @@
-<%# app/views/foods/index.html.erb %>
-<%# controller sets @foods = Food.order(elo: :desc) or similar %>
+<% content_for :title, "Foods ranked by Elo" %>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <header class="mb-6 flex items-center justify-between">
-    <h1 class="text-2xl font-bold">Foods</h1>
-    <p class="text-sm text-gray-600">Showing <strong><%= @foods.count %></strong> items</p>
+    <h1 class="text-2xl font-bold">Foods Ranked by Elo</h1>
+    <p class="text-sm text-gray-600">Total: <%= @foods.count %></p>
   </header>
 
+  <%# Random vote button %>
+  <div class="mb-8 text-center">
+    <%= link_to "Start Voting",
+          edit_food_path(Food.all.sample),
+          class: "inline-block px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 shadow-md" %>
+  </div>
+
+  <%# Foods ranking grid %>
   <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     <% @foods.each do |food| %>
       <%= render partial: "food", locals: { food: food } %>
     <% end %>
-  </div>
-
-  <%# optional pagination area %>
-  <div class="mt-8">
-    <%= paginate @foods if defined?(paginate) %>
   </div>
 </div>
